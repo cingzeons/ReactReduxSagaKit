@@ -1,0 +1,41 @@
+.cosultationWrap {
+    :global{
+
+        .marquee {
+            .scrollUp {
+                font-size: 0.14rem;
+                width: 90%;
+                padding: 0 0.3rem;
+                height: 106px;
+                line-height: 30px;
+                overflow: hidden;
+
+                .scrollBox1, .scrollBox2 {
+                    display: block;
+
+                    a {
+                        display: block;
+                    }
+                }
+            }
+
+            .scrollLeft {
+                width: 5rem;
+                height: 0.4rem;
+                line-height: 0.4rem;
+                overflow: hidden;
+                white-space: nowrap;
+                font-size: 0.14rem;
+
+                .scrollBox1, .scrollBox2 {
+                    display: inline;
+                }
+
+                a {
+                    margin-right: 0.2rem;
+                }
+            }
+        }
+    }
+
+}
