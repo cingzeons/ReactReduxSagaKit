@@ -1,12 +1,5 @@
 import { INCREMENT, DECREMENT } from "../constants";
 
-
-function getData(state){
-    console.log("getData", state);
-    return state;
-}
-
-
 export const increment = (state) => dispatch => {
     dispatch({
         type: INCREMENT,

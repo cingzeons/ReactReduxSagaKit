@@ -4,7 +4,7 @@ import thunk from 'redux-thunk';
 import promise from 'redux-promise'
 import { composeWithDevTools } from 'redux-devtools-extension';
 import logger from 'redux-logger';
-import { watchIncrement } from "../sagas"
+import rootSaga from "../sagas"
 
 import rootReducers from "../reducers";
 // 使用中间件
@@ -14,6 +14,6 @@ const store = createStore(
     rootReducers,
     composeWithDevTools(applyMiddleware(sagaMiddleware, thunk, promise, logger)),
 );
-sagaMiddleware.run(watchIncrement);
+sagaMiddleware.run(rootSaga);
 
 export default store;

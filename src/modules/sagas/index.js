@@ -1,23 +1,38 @@
-import { takeLatest, takeEvery, put, delay } from "redux-saga/effects";
-import { INCREMENT_ASYNC } from "../constants";
-// import { increment, incrementAsync } from "../actions/counter";
+import { all, fork } from "redux-saga/effects";
+import { counterSagas } from "./counter";
+import { userSagas } from "./user";
 
-// 延时2秒
-// const delay = (ms) => new Promise(resolve => setTimeout(resolve, ms))
-
-function* incrementAsync(){
-    // 等待 2 秒
-    yield delay(2000);
-
-    // put 发送 action
-    yield put({type: INCREMENT_ASYNC});
+/*
+export default function* rootSage(){
+    yield all([
+        watchIncrementAsync(),
+        watchFetchUser(),
+        watchFetchTodos(),
+    ])
 }
+*/
+// console.log(Object.values(userSagas)); //  [ƒ, ƒ]
+/**
+ * fork 是并行执行
+ * @returns {IterableIterator<AllEffect<SimpleEffect<"FORK", ForkEffectDescriptor>>>}
+ */
+export default function* rootSage(){
+    // 1. 普通的写法
+    /*yield all([
+        fork(watchIncrementAsync()),
+        fork(watchFetchUser()),
+        fork(watchFetchTodos()),
+    ]);*/
 
-export function* watchIncrement(){
-    console.log("hello saga!");
-    // 测试
-    // yield takeLatest(INCREMENT_ASYNC, incrementAsync)
+    // 2. 高级的写法
+    /*yield all([
+        ...Object.values(userSagas),
+        ...Object.values(counterSagas),
+    ].map(fork))*/
 
-    // 监听 action
-    yield takeEvery(INCREMENT_ASYNC, incrementAsync)
+    // 3. 高级特别的写法
+    yield all([
+        ...counterSagas,
+        ...userSagas
+    ])
 }

@@ -6,38 +6,35 @@ import { Button } from "antd";
 
 import { increment, decrement } from "./modules/actions";
 import { incrementAsync } from "./modules/actions/counter";
+import { get_user } from "./modules/actions/user";
+
 import './App.css';
 
 class App extends Component {
     render(){
-        const {
-            counter,
-            user,
-            increment,
-            incrementAsync,
-            counterAsyncNum,
-            decrement,
+        const {incrementAsync, counter, get_user } = this.props;
+        const { isFetching, error, user } = this.props.user;
 
-        } = this.props;
+        let data;
+        if(error){
+            data = error;
+        }else if(isFetching){
+            data = "Loading...";
+        }else{
+            data = user && user.data[0].name ? user.data[0].name : error;
+        }
 
-        console.log(this.props);
         return (
             <div className="container">
-                <h1 className="jumbotron-heading text-center">{ counter }</h1>
-                <h1 className="jumbotron-heading text-center">{ user }</h1>
-                <p className="text-center">
-                    {/*<button onClick={() => dispatch(increment(counter))} className="btn btn-primary mr-2">Increase</button>
-                    <button onClick={() => dispatch(decrement(counter))} className="btn btn-primary mr-2">Decrease</button>*/}
-                    <Button onClick={() => increment(counter)}>Increase</Button>
-                    <Button onClick={() => decrement(counter)}>Decrease</Button>
-                </p>
-
-                <hr/>
-
-                <p className="APP-intro">{counterAsyncNum}</p>
-                <Button onClick={incrementAsync}>+</Button>
-                <br/>
-                <Button onClick={() => decrement(counter)}>-</Button>
+                <div>
+                    <p className="APP-intro">{counter}</p>
+                    <Button onClick={incrementAsync}>async</Button>
+                    <br/>
+                    <Button onClick={get_user}>Get User</Button>
+                </div>
+                <div>
+                    <h1>{data}</h1>
+                </div>
             </div>
         );
     }
@@ -45,34 +42,16 @@ class App extends Component {
 
 const mapStateToProps = state => {
     return {
-        counter: state.counter.counter,
-        user: state.user.user,
-        counterAsyncNum: state.counterAsync.counterAsync,
+        counter: state.counter,
+        user: state.user,
+        counterAsyncNum: state.counterAsync,
     }
 };
 
-/*const mapDispatchToProps = dispatch => {
-    return {
-        onIncrement(num){
-            dispatch({
-                type: INCREMENT,
-                counter: num + 1
-            });
-        },
-        onDecrement(num){
-            dispatch({
-                type: DECREMENT,
-                counter: num - 1
-            });
-        }
-    }
-}*/
-
-const mapDispatchToProps = dispatch => bindActionCreators({increment, decrement, incrementAsync}, dispatch);
-
+const mapDispatchToProps = dispatch => bindActionCreators({increment, decrement, incrementAsync, get_user}, dispatch);
 App.propTypes = {
     counter: PropTypes.number.isRequired,
-    user: PropTypes.string.isRequired,
+    user: PropTypes.object.isRequired,
 }
 
 // export default connect(mapStateToProps, mapDispatchToProps)(App);

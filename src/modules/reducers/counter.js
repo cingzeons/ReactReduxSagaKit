@@ -4,14 +4,12 @@ const initState = {
     counter: 0
 };
 
-const counter = (state=initState, action={}) => {
+const counter = (state=0, action={}) => {
     switch (action.type) {
         case INCREMENT:
-            console.log({...state, counter: action.counter});
-            return {...state, counter: action.counter};
+            return state + 1;
         case DECREMENT:
-            console.log({...state, counter: action.counter});
-            return {...state, counter: action.counter};
+            return state - 1;
         default:
             return state;
     }
